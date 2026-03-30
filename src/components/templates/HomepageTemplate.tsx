@@ -1,4 +1,5 @@
-// import React, { useEffect } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { HomepageLayout } from "../organism/HomepageLayout";
 import { FaStar } from "react-icons/fa";
@@ -11,7 +12,7 @@ interface Product {
   price: number;
   image_url: string;
   is_available: boolean;
-  ratings: boolean;
+  ratings: number;
   total_sold: number;
 }
 
@@ -44,12 +45,6 @@ export const HomepageTemplate: React.FC = () => {
   //   const cart = JSON.parse(localStorage.getItem(cartKey) || "[]");
   //   setCartCount(cart.length);
   // }, [cartKey]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-    window.location.reload();
-  };
 
   // const handleAddToCart = (product: Product) => {
   //   if (!isLoggedIn) {
@@ -228,44 +223,46 @@ export const HomepageTemplate: React.FC = () => {
           ) : (
             <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
               {products?.map((product) => (
-                <div
-                  key={product.id}
-                  className="flex flex-col rounded-xl border border-gray-100 bg-white shadow-sm p-4"
-                >
-                  {/* GAMBAR CARD */}
-                  <div className="flex flex-col items-center">
-                    <img
-                      src={product.image_url}
-                      alt={product.name}
-                      className="h-40 w-50 object-cover sm:h-32 lg:h-36"
-                    />
-                  </div>
-
-                  {/* NAMA */}
-                  <div className="mt-4 p-2.5 sm:p-3">
-                    <h3 className="font-semibold text-sm">{product.name}</h3>
-
-                    <div className="mt-1.5 flex items-center gap-1.5">
-                      <FaStar className="text-[#FDC700]" />
-                      <p className="text-sm text-[#4A596C]">
-                        {product.ratings}
-                      </p>
-                      <p className="text-xs text-[#6D8AA3]">
-                        ({product.total_sold} sold)
-                      </p>
+                <Link to={`/products/${product.id}`} key={product.id}>
+                  <div
+                    key={product.id}
+                    className="flex flex-col rounded-xl border border-gray-100 bg-white shadow-sm p-4"
+                  >
+                    {/* GAMBAR CARD */}
+                    <div className="flex flex-col items-center">
+                      <img
+                        src={product.image_url}
+                        alt={product.name}
+                        className="h-40 w-50 object-cover sm:h-32 lg:h-36"
+                      />
                     </div>
 
-                    <h2 className="mt-4 font-bold text-xl">
-                      Rp. {product.price.toLocaleString("id-ID")}
-                    </h2>
+                    {/* NAMA */}
+                    <div className="mt-4 p-2.5 sm:p-3">
+                      <h3 className="font-semibold text-sm">{product.name}</h3>
+
+                      <div className="mt-1.5 flex items-center gap-1.5">
+                        <FaStar className="text-[#FDC700]" />
+                        <p className="text-sm text-[#4A596C]">
+                          {product.ratings}
+                        </p>
+                        <p className="text-xs text-[#6D8AA3]">
+                          ({product.total_sold} sold)
+                        </p>
+                      </div>
+
+                      <h2 className="mt-4 font-bold text-xl">
+                        Rp. {product.price.toLocaleString("id-ID")}
+                      </h2>
+                    </div>
+                    <button
+                      type="button"
+                      className="w-full rounded-xl px-2 py-3 text-xs cursor-pointer bg-[#AACDDC] hover:bg-[#9bbcca] font-semibold text-white sm:text-sm"
+                    >
+                      Lihat lebih detail
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    className="w-full rounded-xl px-2 py-3 text-xs bg-[#AACDDC] font-semibold text-white sm:text-sm"
-                  >
-                    Tambahkan Ke Keranjang
-                  </button>
-                </div>
+                </Link>
               ))}
             </div>
           )}
